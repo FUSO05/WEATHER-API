@@ -3,8 +3,43 @@ import tkinter as tk
 import requests_cache
 import pandas as pd
 from retry_requests import retry
+"""import yagmail
 
-# Função para ir buscar os dados meteorológicos
+#Função para enviar email a user
+def enviar_email():
+     
+    # Configurar yagmail com sua conta do Gmail
+    remetente = 'trabalho.lab.clima@gmail.com'
+    senha = 'VamosTirar20.'
+    destinatario = 'lnluisnunes2005@gmail.com'
+    assunto = 'Assunto do E-mail'
+    corpo = 'Corpo do E-mail'
+
+    # Criar um objeto yagmail
+    yag = yagmail.SMTP(remetente, senha)
+
+    #Enviar o e-mail
+    yag.send(to=destinatario, subject=assunto, contents=corpo)
+    
+    #Fechar a conexão
+    yag.close() """
+
+#Função para slavar dados de API
+def salvar_dados(dados, ficheiro):
+    
+    if isinstance(dados, pd.DataFrame):
+        dados_str = dados.to_csv(index = False)
+       
+    elif isinstance(dados, str):
+         dados_str = dados
+         
+    else:
+        dados_str = str(dados) 
+
+    with open(ficheiro, "w") as file:
+        file.write(dados_str)
+
+# Função para ir buscar os dados meteorológicos   
 def buscar_dados_clima(latitude_user, longitude_user):
     
     # Configuração do cliente da API Open-Meteo com cache e tentativas de retransmissão em caso de erro
@@ -45,7 +80,9 @@ def buscar_dados_clima(latitude_user, longitude_user):
             )
             current_frame = tk.Frame(window)
             display_info_clima(current_frame, "Informacao Atual", current_data)
-    
+            salvar_dados(current_data, "informacao_atual")
+            
+                    
     # Exibição das informações meteorológicas horárias 
     def informacao_horaria():
         hourly_data = pd.DataFrame(data={
@@ -56,6 +93,7 @@ def buscar_dados_clima(latitude_user, longitude_user):
         })
         hourly_frame = tk.Frame(window)
         display_info_clima(hourly_frame, "Informacao Horaria", hourly_data)
+        salvar_dados(hourly_data, "informacao_horaria")
 
     # Exibição das informações meteorológicas diárias       
     def informacao_diaria():
@@ -65,6 +103,8 @@ def buscar_dados_clima(latitude_user, longitude_user):
         })
         daily_frame = tk.Frame(window)
         display_info_clima(daily_frame, "Informacao Diaria", daily_data)
+        salvar_dados(daily_data, "informacao_diaria")
+        
 
 
     # Criação da janela tkinter
@@ -84,7 +124,8 @@ def buscar_dados_clima(latitude_user, longitude_user):
 
     botao3 = tk.Button(frame_botoes, text="Informacao diaria", command=informacao_diaria)
     botao3.pack(side=tk.LEFT, padx=10)
-
+    
+    
     window.mainloop()
 
 def iniciar_interface():
@@ -111,10 +152,9 @@ def iniciar_interface():
     buscar_button = tk.Button(root, text="Buscar Dados Meteorologicos", command=buscar_clima)
     buscar_button.pack(pady=20)
 
+  
 
     root.mainloop()
     
 # Iniciar a interface para inserir latitude e longitude
 iniciar_interface()
-
-
