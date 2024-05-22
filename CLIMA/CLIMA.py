@@ -755,7 +755,7 @@ def iniciar_interface():
         identificar_condicoes_furacoes_tornados("Informacao_16dias_futuro.txt")
         identificar_condicoes_inundacoes("Informacao_16dias_futuro.txt")
         grafico_temperatura("Informacao_16dias_futuro.txt")
-        grafico_chuva("Informacao_16dias_futuro.txt")
+        grafico_humidade_relativa("Informacao_16dias_futuro.txt")
         grafico_chuva("Informacao_16dias_futuro.txt")
         grafico_velocidade_vento("Informacao_16dias_futuro.txt")
 
