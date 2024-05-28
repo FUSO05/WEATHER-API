@@ -16,8 +16,6 @@ from email.mime.multipart import MIMEMultipart
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import folium
-from folium.plugins import MarkerCluster
 
 # Funcao ler pass de um ficheiro
 def get_password_from_file(file):
